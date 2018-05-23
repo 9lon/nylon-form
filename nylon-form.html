@@ -6,56 +6,85 @@
             return 'nylon-form';
         }
 
+        static get properties(){
+            return {
+                section: String
+            };
+        }
+
         static get template() {
             return Polymer.html`
                 <slot></slot>
             `
         }
 
+        makeid() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < 5; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+
+        ready(){
+            super.ready()
+            this.section = this.makeid()
+            let child = this.querySelectorAll("[form-path]")
+            for(let i=0;i<child.length;i++){
+                child[i].setAttribute("form-section",this.section)
+            }
+        }
+
 
         submit(){
             
             let data = {}
+            let child = this.querySelectorAll("[form-path]")
+            
 
-            for(let i=0;i<this.children.length;i++){
-                let path = this.children[i].getAttribute('form-path')
+            for(let i=0;i<child.length;i++){
+                let path = child[i].getAttribute('form-path')
                 if(path!=null){
-                    let prop = "value"
-                    if(this.children[i].getAttribute('form-prop')!=null){
-                        prop = this.children[i].getAttribute('form-prop')
-                    }
-
-                   
-
-                    let stackPath = ""
-                    
-                    if(path.split('.').length>1){
-                        
-                        path.split('.').map((key,index)=>{
-                            stackPath = stackPath+"."+key
-                            eval('data'+stackPath+'='+ 'data'+stackPath+' || {}')
-                        })
-                       
-                    }else{
-                        stackPath = path
-                    }
-
-                    let valData = ""
-                    if(this.children[i].getAttribute('form-child')!=null){
-
-                        if(this.children[i].localName=="nylon-form"){
-                            this.children[i].submit()
-                            valData = this.children[i].data
-                        }else{
-                            this.children[i].shadowRoot.querySelector("nylon-form").submit()
-                            valData = this.children[i].shadowRoot.querySelector("nylon-form").data
+                    if(child[i].getAttribute('form-section')==this.section){
+                        let prop = "value"
+                        if(child[i].getAttribute('form-value')!=null){
+                            prop = child[i].getAttribute('form-value')
                         }
-                        
-                    }else{
-                        valData = this.children[i][prop]
-                    }
 
-                    eval('data.' + path + '='+JSON.stringify(valData))
+                    
+
+                        let stackPath = ""
+                        
+                        if(path.split('.').length>1){
+                            
+                            path.split('.').map((key,index)=>{
+                                stackPath = stackPath+"."+key
+                                eval('data'+stackPath+'='+ 'data'+stackPath+' || {}')
+                            })
+                        
+                        }else{
+                            stackPath = path
+                        }
+
+                        let valData = ""
+                        if(child[i].getAttribute('form-child')!=null){
+
+                            if(child[i].localName=="nylon-form"){
+                                child[i].submit()
+                                valData = child[i].data
+                            }else{
+                                child[i].shadowRoot.querySelector("nylon-form").submit()
+                                valData = child[i].shadowRoot.querySelector("nylon-form").data
+                            }
+                            
+                        }else{
+                            valData = child[i][prop]
+                        }
+
+                        eval('data.' + path + '='+JSON.stringify(valData))
+                    }
 
                 }
                 
