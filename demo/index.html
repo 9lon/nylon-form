@@ -62,16 +62,16 @@
                     <input type="checkbox" form-group value="[[item]]"> I have a [[item]]<br>
                 </template>
               </dom-repeat>
-              <!-- <input type="checkbox" form-group value="bike"> I have a bike<br>
-              <input type="checkbox" form-group value="car"> I have a car<br> -->
             </nylon-form-group>
           </nylon-form>
           <button id="btn2">submit</button>
 
         <script>
           document.getElementById('myFormGroup').value = ['car']
-          document.getElementById('checkbox').items = ['bike','car']
-          // console.log(document.getElementById('checkbox'))
+          setTimeout(()=>{
+            document.getElementById('checkbox').items = ['bike','car']
+          },1000)
+          
           document.getElementById('btn2').addEventListener('click',(e)=>{
             console.log(document.getElementById('myForm2').submit())
           })

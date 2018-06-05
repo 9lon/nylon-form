@@ -27,6 +27,15 @@
             `
         }
 
+        ready(){
+            super.ready()
+
+            let temp = this.querySelector('dom-repeat')
+            temp = temp || this.querySelector('[is=dom-repeat]')
+            temp.addEventListener("dom-change", (e)=>this.refresh())
+
+        }
+
         _valueChanged(arrVal){
             let child = this.querySelectorAll('[form-group]')
             for(let i=0;i<child.length;i++){
@@ -54,6 +63,10 @@
 
             this.value = val
             this.data = val
+        }
+
+        refresh(){
+            this._valueChanged(this.value)
         }
 
     }
