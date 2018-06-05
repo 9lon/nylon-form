@@ -1,0 +1,64 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<script>
+    class NylonFormGroup extends Polymer.Element {
+        static get is() {
+            return 'nylon-form-group';
+        }
+
+        static get properties(){
+            return {
+                //section: String
+                value:{
+                    type: Array,
+                    value: [],
+                    observer: '_valueChanged'
+                },
+                data:{
+                    type: Array,
+                    value: []
+                }
+            };
+        }
+
+        static get template() {
+            return Polymer.html`
+                <slot></slot>
+            `
+        }
+
+        _valueChanged(arrVal){
+            let child = this.querySelectorAll('[form-group]')
+            for(let i=0;i<child.length;i++){
+
+                let checked = false
+                arrVal.map((row)=>{
+                    if(child[i].value==row)
+                        checked = true
+                })
+                
+                child[i].checked = checked
+
+            }
+        }
+
+        submit(){
+            let val = []
+            let child = this.querySelectorAll('[form-group]')
+            for(let i=0;i<child.length;i++){
+                if(child[i].checked==true){
+                    val.push(child[i].value)
+                }
+                
+            }
+
+            this.value = val
+            this.data = val
+        }
+
+    }
+    window.customElements.define(NylonFormGroup.is, NylonFormGroup);
+
+
+  
+</script>

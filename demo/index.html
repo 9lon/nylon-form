@@ -12,8 +12,12 @@
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 
+  <link rel="import" href="../../polymer/lib/elements/dom-if.html">
+  <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
   <link rel="import" href="../nylon-form.html">
+  <link rel="import" href="../nylon-form-group.html">
   <link rel="import" href="./test-za.html">
+  
   <!-- <link rel="import" href="../bower_components/polymer/lib/elements/dom-bind.html"> -->
 
   <custom-style>
@@ -43,6 +47,35 @@
               console.log(document.getElementById('myForm').submit())
             })
         </script>
+      </template>
+    </demo-snippet>
+  </div>
+  <div class="vertical-section-container centered">
+    <h3>Basic nylon-form-group demo</h3>
+    <demo-snippet>
+      <template>
+          <nylon-form id="myForm2">
+            <nylon-form-group id="myFormGroup" form-path="a" form-child>
+
+              <dom-repeat id="checkbox">
+                <template>
+                    <input type="checkbox" form-group value="[[item]]"> I have a [[item]]<br>
+                </template>
+              </dom-repeat>
+              <!-- <input type="checkbox" form-group value="bike"> I have a bike<br>
+              <input type="checkbox" form-group value="car"> I have a car<br> -->
+            </nylon-form-group>
+          </nylon-form>
+          <button id="btn2">submit</button>
+
+        <script>
+          document.getElementById('myFormGroup').value = ['car']
+          document.getElementById('checkbox').items = ['bike','car']
+          // console.log(document.getElementById('checkbox'))
+          document.getElementById('btn2').addEventListener('click',(e)=>{
+            console.log(document.getElementById('myForm2').submit())
+          })
+      </script>
       </template>
     </demo-snippet>
   </div>

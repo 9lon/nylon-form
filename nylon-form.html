@@ -71,7 +71,7 @@
                         let valData = ""
                         if(child[i].getAttribute('form-child')!=null){
 
-                            if(child[i].localName=="nylon-form"){
+                            if(child[i].localName=="nylon-form" || child[i].localName=="nylon-form-group"){
                                 child[i].submit()
                                 valData = child[i].data
                             }else{
