@@ -41,10 +41,12 @@
             for(let i=0;i<child.length;i++){
 
                 let checked = false
-                arrVal.map((row)=>{
-                    if(child[i].value==row)
-                        checked = true
-                })
+                if(arrVal!=undefined) {
+                    arrVal.map((row)=>{
+                        if(child[i].value==row)
+                            checked = true
+                    })
+                }
                 
                 child[i].checked = checked
 
